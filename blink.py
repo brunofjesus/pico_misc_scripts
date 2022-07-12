@@ -29,7 +29,7 @@ sequentialLed = SequentialLed(["LED", 14, 15])
 reverse = False
 
 while True:
-    if button.value() == 1:
+    if (button.value() == 1 and not reverse) or (button.value() == 0 and reverse):
         sequentialLed.toggle(0.2, reverse)
         reverse = not reverse
         sleep(0.5)
