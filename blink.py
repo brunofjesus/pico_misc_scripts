@@ -1,26 +1,35 @@
 from machine import Pin
 from time import sleep
 
-ledPins = ["LED", 14, 15]
-ledObjs = [];
-
-def initLeds():
-    for led in ledPins:
-        led = Pin(led, Pin.OUT)
-        led.value(0)
-        ledObjs.append(led)
+class SequentialLed():
+    ledObjs = [];
+    
+    def __init__(self, ledPins: list):
         
-def toggleLeds(ledList: list, interval :int):
-    for led in ledList:
-        print(led)
-        led.toggle()
-        sleep(interval)
+        for led in ledPins:
+            led = Pin(led, Pin.OUT)
+            led.value(0)
+            self.ledObjs.append(led)
+        
+
+            
+    def toggle(self, interval :int, reverse: bool):
+        
+        ledList = self.ledObjs if not reverse else reversed(self.ledObjs)
+        
+        for led in ledList:
+            led.toggle()
+            sleep(interval)
 
 
-initLeds()
+button = machine.Pin(13, machine.Pin.IN, machine.Pin.PULL_DOWN)
+
+
+sequentialLed = SequentialLed(["LED", 14, 15])
+reverse = False
 
 while True:
-    toggleLeds(ledObjs, 0.2)
-    sleep(0.5)
-    toggleLeds(reversed(ledObjs), 0.2)
-    sleep(2)
+    if button.value() == 1:
+        sequentialLed.toggle(0.2, reverse)
+        reverse = not reverse
+        sleep(0.5)
