@@ -22,13 +22,15 @@ class SequentialLed():
             sleep(interval)
 
 
-button = machine.Pin(13, machine.Pin.IN, machine.Pin.PULL_DOWN)
+button = machine.Pin(12, machine.Pin.IN, machine.Pin.PULL_DOWN)
 
 
-sequentialLed = SequentialLed(["LED", 14, 15])
+sequentialLed = SequentialLed([13, 14, 15, "LED"])
 reverse = False
+sequentialLed.toggle(0.2,False)
+sequentialLed.toggle(0.2,True)
 
-while True:
+while True:        
     if (button.value() == 1 and not reverse) or (button.value() == 0 and reverse):
         sequentialLed.toggle(0.2, reverse)
         reverse = not reverse
