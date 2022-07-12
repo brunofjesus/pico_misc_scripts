@@ -1,9 +1,9 @@
-import machine
-import time
+from machine import Pin
+from time import sleep
 
-led = machine.Pin("LED", machine.Pin.OUT)
+led = Pin("LED", Pin.OUT)
 
 while True:
     led.toggle()
-    time.sleep(2)
+    sleep(2)
     print("Hello world");
